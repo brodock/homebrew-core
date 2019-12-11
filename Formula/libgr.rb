@@ -1,19 +1,16 @@
 class Libgr < Formula
   desc "GR framework: a graphics library for visualisation applications"
   homepage "https://gr-framework.org/"
-  url "https://github.com/sciapp/gr/archive/v0.37.0.tar.gz"
-  sha256 "9120c4215cd2c10239f45f4cbf79dcb199a9e7e3bbbf36e5ce8f4e5eb2e70e24"
-
-  bottle do
-    sha256 "cf43f68b60d8c2084f84e35fc66daa8d88b66b13b2380bee6b7807d622f440ef" => :mojave
-    sha256 "66e7569c1ab5112a958b7d986ce0aae23ca939d40d6967707d0806bd64d479e8" => :high_sierra
-    sha256 "00a6481d88b6c4dc5d1557ae8b249521009234410e2d546d5d39e0013acd4645" => :sierra
-  end
+  url "https://github.com/sciapp/gr/archive/v0.44.1.tar.gz"
+  sha256 "43979bee9f9bffd145e9e076d1ee24e6ecf3866eb6c0e34631da922bfb4dc0b5"
 
   depends_on :xcode => :build
-  depends_on "cairo"
+  depends_on "ffmpeg" => :build
+  depends_on "pkg-config" => :build
+  depends_on :x11
 
   def install
+    inreplace "3rdparty/Makefile", "EXTRAS = tiff ogg theora vpx openh264 ffmpeg glfw zeromq pixman cairo", "EXTRAS = tiff glfw pixman zeromq cairo"
     system "make", "self", "GRDIR=#{prefix}"
   end
 
